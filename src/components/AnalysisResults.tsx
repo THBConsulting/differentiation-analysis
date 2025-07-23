@@ -1,7 +1,11 @@
+import { useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { AlertTriangle, Users, DollarSign, MapPin, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AlertTriangle, Users, DollarSign, MapPin, TrendingUp, Download } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import html2pdf from "html2pdf.js";
 
 interface CompetitorData {
   name: string;
@@ -31,6 +35,9 @@ export const AnalysisResults = ({
   fundingCompetition,
   differentiationOpportunities
 }: AnalysisResultsProps) => {
+  const reportRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+
   const getFundingColor = (level: string) => {
     switch (level) {
       case 'Low': return 'bg-success';
@@ -40,8 +47,61 @@ export const AnalysisResults = ({
     }
   };
 
+  const exportToPDF = async () => {
+    if (!reportRef.current) return;
+    
+    try {
+      const opt = {
+        margin: 1,
+        filename: `${organizationName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_competitive_analysis.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+
+      toast({
+        title: "Generating PDF...",
+        description: "Your competitive analysis report is being prepared for download.",
+      });
+
+      await html2pdf().set(opt).from(reportRef.current).save();
+      
+      toast({
+        title: "PDF Downloaded",
+        description: "Your competitive analysis report has been saved successfully.",
+      });
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast({
+        title: "Export Error",
+        description: "There was an issue generating your PDF. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto space-y-6">
+      {/* Export Button */}
+      <div className="flex justify-end">
+        <Button onClick={exportToPDF} className="flex items-center gap-2">
+          <Download className="h-4 w-4" />
+          Export to PDF
+        </Button>
+      </div>
+
+      {/* Report Content */}
+      <div ref={reportRef} className="space-y-6 bg-white p-8 rounded-lg">
+        {/* Report Header for PDF */}
+        <div className="text-center border-b pb-6 mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Competitive Analysis Report
+          </h1>
+          <h2 className="text-xl text-gray-700 mb-2">{organizationName}</h2>
+          <p className="text-gray-600">
+            {focusArea} organizations near {zipCode} • Generated on {new Date().toLocaleDateString()}
+          </p>
+        </div>
       {/* Key Insights Header */}
       <Card className="border-l-4 border-l-primary">
         <CardHeader>
@@ -182,6 +242,7 @@ export const AnalysisResults = ({
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
