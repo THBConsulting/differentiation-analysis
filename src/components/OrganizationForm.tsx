@@ -64,7 +64,7 @@ export const OrganizationForm = ({ onSubmit }: OrganizationFormProps) => {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle>Tell us about your organization</CardTitle>
         <CardDescription>

@@ -82,10 +82,10 @@ const Index = () => {
 
   if (showResults && analysisData) {
     return (
-      <div className="min-h-screen bg-background py-8 px-4">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-screen bg-background py-8 px-8">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">
+            <h1 className="text-4xl font-bold text-foreground mb-2">
               Competitive Analysis for {analysisData.organizationName}
             </h1>
             <p className="text-muted-foreground mb-4">
@@ -93,7 +93,7 @@ const Index = () => {
             </p>
             <button 
               onClick={handleStartOver}
-              className="text-primary hover:underline"
+              className="text-primary hover:underline text-lg"
             >
               ← Analyze a different organization
             </button>
@@ -117,44 +117,17 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-b from-primary/5 to-background py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+    <div className="min-h-screen bg-background py-12 px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-foreground mb-4">
             Nonprofit Competitive Analysis
           </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Understand your local nonprofit landscape. Discover who you're competing with for funding and find opportunities to differentiate your organization.
           </p>
-          
-          <Card className="max-w-md mx-auto mb-8">
-            <CardContent className="pt-6">
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div>
-                  <div className="text-2xl font-bold text-primary">500K+</div>
-                  <div className="text-sm text-muted-foreground">Nonprofits in US</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-primary">$471B</div>
-                  <div className="text-sm text-muted-foreground">Annual giving</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-primary">3%</div>
-                  <div className="text-sm text-muted-foreground">Growth rate</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-            With increasing competition for limited funding, strategic differentiation isn't just helpful—it's essential for sustainability.
-          </p>
         </div>
-      </div>
-
-      {/* Form Section */}
-      <div className="py-16 px-4">
+        
         <OrganizationForm onSubmit={handleFormSubmit} />
       </div>
     </div>
